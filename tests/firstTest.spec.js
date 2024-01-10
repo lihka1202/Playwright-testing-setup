@@ -1,4 +1,4 @@
-import { test } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 test.beforeEach(async ({ page }) => {
 	await page.goto('http://localhost:4200/');
@@ -42,5 +42,35 @@ test('locating parent elements', async ({ page }) => {
 		.getByRole('textbox', { name: 'Email' })
 		.click();
 
-	await page.locator('nb-card').click();
+	await page
+		.locator('nb-card')
+		.filter({ has: page.locator('.status-danger') })
+		.getByRole('textbox', { name: 'Password' })
+		.click();
+
+	await page
+		.locator('nb-card')
+		.filter({ has: page.locator('nb-checkbox') })
+		.filter({ hasText: 'Sign in' })
+		.getByRole('textbox', { name: 'Email' })
+		.click();
+
+	// Using the locator to get the Xpath
+
+	await page
+		.locator(':text-is("Using the Grid")')
+		.locator('..')
+		.getByRole('textbox', { name: 'Email' })
+		.click();
+});
+
+test('Resuing the Locators', async ({ page }) => {
+	const holder = page.locator('nb-card').filter({ hasText: 'Basic Form' });
+	const getEmailRole = holder.getByRole('textbox', { name: 'Email' });
+
+	await getEmailRole.fill('test@test.com');
+	await holder.getByRole('textbox', { name: 'Password' }).fill('password');
+	await holder.getByRole('button').click();
+
+	await expect(getEmailRole).toHaveValue('test@test.com');
 });
