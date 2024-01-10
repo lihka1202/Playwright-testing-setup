@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import exp from 'constants';
 
 test.beforeEach(async ({ page }) => {
 	await page.goto('http://localhost:4200/');
@@ -73,4 +74,32 @@ test('Resuing the Locators', async ({ page }) => {
 	await holder.getByRole('button').click();
 
 	await expect(getEmailRole).toHaveValue('test@test.com');
+});
+
+test('extracing single values', async ({ page }) => {
+	// single text value
+	const basicForm = page.locator('nb-card').filter({ hasText: 'Basic Form' });
+	const buttonText = await basicForm.locator('button').textContent();
+	// No await in the expect
+
+	expect(buttonText).toEqual('Submit2');
+
+	// check if any of the elements via locator have the value
+	const allRadioButtonsContent = await page
+		.locator('nb-radio')
+		.allTextContents();
+
+	expect(allRadioButtonsContent).toContain('Option 1');
+
+	// input content
+	const emailField = basicForm.getByRole('textbox', { name: 'Email' });
+	await emailField.fill('test@test.com');
+
+	const input = await emailField.inputValue();
+
+	expect(input).toEqual('test@test.com');
+
+	// check attributres
+	const placeHolderValue = await emailField.getAttribute('placeholder');
+	expect(placeHolderValue).toEqual('Email');
 });
