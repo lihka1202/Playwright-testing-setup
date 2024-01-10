@@ -103,3 +103,29 @@ test('extracing single values', async ({ page }) => {
 	const placeHolderValue = await emailField.getAttribute('placeholder');
 	expect(placeHolderValue).toEqual('Email');
 });
+
+// different kinds of assertions
+test('assertions', async ({ page }) => {
+	// General Assertions
+	const value = 5;
+	expect(value).toEqual(5);
+
+	// Check if the basic form buttons have certain text
+	const basicFormButton = await page
+		.locator('nb-card')
+		.filter({ hasText: 'Basic Form' })
+		.locator('button');
+
+	//! Why does this need await?
+	const textInButton = await basicFormButton.textContent();
+
+	expect(textInButton).toEqual('Submit');
+
+	// Doing the same using the locator assertions
+
+	await expect(basicFormButton).toHaveText('Submit');
+
+	// SOft assertions
+	await expect.soft(basicFormButton).toHaveText('Submit');
+	await basicFormButton.click();
+});
