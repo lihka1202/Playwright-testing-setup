@@ -1,5 +1,4 @@
 import { expect, test } from '@playwright/test';
-import exp from 'constants';
 
 test.beforeEach(async ({ page }) => {
 	await page.goto('http://localhost:4200/');
