@@ -6,10 +6,10 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe('Form Layouts page', async () => {
-	test.beforeEach(async ({ page }) => {
-		await page.getByText('Forms').click();
-		await page.getByText('Form Layout').click();
-	});
+	// test.beforeEach(async ({ page }) => {
+	// 	await page.getByText('Forms').click();
+	// 	await page.getByText('Form Layout').click();
+	// });
 
 	test('input fields', async ({ page }) => {
 		const usingTheInputInTheGrid = page
@@ -205,9 +205,24 @@ test.describe('Form Layouts page', async () => {
 		const calendarInputField = page.getByPlaceholder('Form Picker');
 		await calendarInputField.click();
 
+		const date = new Date();
+		date.setDate(date.getDate() + 1);
+		const expectedDate = date.getDate().toString();
+
 		await page
 			.locator('[class="day-cell ng-star-inserted"]')
-			.getByText('1')
+			.getByText(expectedDate, { exact: true })
 			.click();
+	});
+
+	test('slider tests', async ({ page }) => {
+		// Updating the attributes
+		const tempGauge = page.locator(
+			'[tabtitle="Temperature"] ngx-temperature-dragger circle',
+		);
+		await tempGauge.evaluate(node => {
+			node.setAttribute('cx', '232.630');
+			node.setAttribute('cy', '232.630');
+		});
 	});
 });
