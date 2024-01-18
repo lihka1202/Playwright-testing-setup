@@ -233,6 +233,14 @@ test.describe('Form Layouts page', async () => {
 		);
 		await tempBox.scrollIntoViewIfNeeded();
 
-		await tempBox.boundingBox();
+		const box = await tempBox.boundingBox();
+
+		const x = (box.x + box.width) / 2;
+		const y = (box.y + box.height) / 2;
+		await page.mouse.move(x, y);
+		await page.mouse.down();
+		await page.mouse.move(x + 100, y);
+		await page.mouse.move(x + 100, y + 100);
+		await page.mouse.up();
 	});
 });
