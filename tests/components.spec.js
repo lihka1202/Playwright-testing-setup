@@ -224,5 +224,15 @@ test.describe('Form Layouts page', async () => {
 			node.setAttribute('cx', '232.630');
 			node.setAttribute('cy', '232.630');
 		});
+
+		await tempGauge.click();
+
+		// Mouse Component
+		const tempBox = page.locator(
+			'[tabtitle="Temperature"] ngx-temperature-dragger',
+		);
+		await tempBox.scrollIntoViewIfNeeded();
+
+		await tempBox.boundingBox();
 	});
 });
