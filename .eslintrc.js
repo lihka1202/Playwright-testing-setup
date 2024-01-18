@@ -21,5 +21,8 @@ module.exports = {
 	},
 	rules: {
 		'max-len': ['error', { code: 80 }],
+		'no-restricted-syntax': 'off',
+		'no-await-in-loop': 'off',
+		'guard-for-in': 'off',
 	},
 };
