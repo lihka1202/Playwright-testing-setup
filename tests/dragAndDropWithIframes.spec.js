@@ -1,5 +1,4 @@
 import { test, expect } from '@playwright/test';
-import exp from 'constants';
 
 test('drag and drop with Iframes', async ({ page }) => {
 	await page.goto('https://www.globalsqa.com/demo-site/draganddrop/');
